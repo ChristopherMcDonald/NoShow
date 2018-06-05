@@ -18,16 +18,20 @@ from sklearn.model_selection import GridSearchCV
 clf = GridSearchCV(RandomForestClassifier(class_weight = {1: 4, 0: 1}, random_state = 0), params, scoring = 'accuracy', n_jobs = -1)
 clf.fit(X_train, y_train)
 
-print("Best parameters set found on development set:")
-print()
-print(clf.best_params_)
-print("Grid scores on development set:")
-print()
+out = open("output.txt", "w");
+
+out.write("Best parameters set found on development set:")
+out.write()
+out.write(clf.best_params_)
+out.write("Grid scores on development set:")
+out.write()
 means = clf.cv_results_['mean_test_score']
 stds = clf.cv_results_['std_test_score']
 for mean, std, params in zip(means, stds, clf.cv_results_['params']):
-    print("%0.3f (+/-%0.03f) for %r"
+    out.write("%0.3f (+/-%0.03f) for %r"
           % (mean, std * 2, params))
+out.write()
+out.close();
 
 # find best params from above and plug into below
 
@@ -44,4 +48,3 @@ for mean, std, params in zip(means, stds, clf.cv_results_['params']):
 # from sklearn.metrics import accuracy_score
 # cm = confusion_matrix(y_test, y_pred)
 # acc = accuracy_score(y_test, y_pred)
-# print("ACC w/ " + val + "," + str(val3) + "," + str(val2) + " : " + str(acc))
