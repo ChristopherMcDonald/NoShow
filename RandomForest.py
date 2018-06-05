@@ -1,37 +1,47 @@
 from KPCA import getComps
 
-X, Y = getComps(9, False);
+X, Y = getComps(3, False)
 
 # Splitting the dataset into the Training set and Test set
 from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.25, random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.20, random_state = 0)
 
-# # Feature Scaling
-# from sklearn.preprocessing import StandardScaler
-# sc = StandardScaler()
-# X_train = sc.fit_transform(X_train)
-# X_test = sc.transform(X_test)
+crits = ['gini', 'entropy']
+maxes = ['log2', 'auto', 0.2, 0.4, 0.6, 0.8, 1.0]
+trees = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
 
-vals = ['gini', 'entropy'];
-vals2 = ['log2', 'auto'];
-vals3 = [5, 10, 15, 20, 25, 30];
+params = {'criterion': crits, 'max_features': maxes, 'n_estimators': trees};
 
-for val in vals:
-    for val2 in vals2:
-        for val3 in vals3:
+# import relevant libraries, use GridSearchCV to find optimal values
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+clf = GridSearchCV(RandomForestClassifier(class_weight = {1: 4, 0: 1}, random_state = 0), params, scoring = 'accuracy', n_jobs = -1)
+clf.fit(X_train, y_train)
 
-            # Fitting Kernel SVM to the Training set
-            from sklearn.ensemble import RandomForestClassifier
-            classifier = RandomForestClassifier(n_estimators = val3, criterion = val, random_state = 0, class_weight={1: 4}, max_features = val2)
-            classifier.fit(X_train, y_train)
+print("Best parameters set found on development set:")
+print()
+print(clf.best_params_)
+print("Grid scores on development set:")
+print()
+means = clf.cv_results_['mean_test_score']
+stds = clf.cv_results_['std_test_score']
+for mean, std, params in zip(means, stds, clf.cv_results_['params']):
+    print("%0.3f (+/-%0.03f) for %r"
+          % (mean, std * 2, params))
 
-            # Predicting the Test set results
-            y_pred = classifier.predict(X_test)
+# find best params from above and plug into below
 
-            # Making the Confusion Matrix
-            from sklearn.metrics import confusion_matrix
-            from sklearn.metrics import accuracy_score
-            cm = confusion_matrix(y_test, y_pred)
-            acc = accuracy_score(y_test, y_pred)
-            print(cm)
-            print("ACC w/ " + val + "," + str(val3) + "," + str(val2) + " : " + str(acc))
+# Fitting Kernel SVM to the Training set
+# from sklearn.ensemble import RandomForestClassifier
+# classifier = RandomForestClassifier(n_estimators = 5, criterion = 'gini', random_state = 0, class_weight={1: 4, 0: 1}, max_features = val2)
+# classifier.fit(X_train, y_train)
+#
+# # Predicting the Test set results
+# y_pred = classifier.predict(X_test)
+#
+# # Making the Confusion Matrix
+# from sklearn.metrics import confusion_matrix
+# from sklearn.metrics import accuracy_score
+# cm = confusion_matrix(y_test, y_pred)
+# acc = accuracy_score(y_test, y_pred)
+# print("ACC w/ " + val + "," + str(val3) + "," + str(val2) + " : " + str(acc))
