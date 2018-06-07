@@ -7,8 +7,6 @@ X, Y = getComps(1, False);
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.20, random_state = 0)
 
-# removed scaling, made no difference
-
 ## Tested with...
 # tols = [0.0001, 0.001, 0.01, 0.1]
 # cVals = [1e1, 1e2, 1e3, 1e4, 1e5, 1e6]
