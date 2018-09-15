@@ -1,6 +1,6 @@
 # NeuralNet - uses X and Y to train a NeuralNet
 # returns the Confusion Matrix and Accuracy of NN
-def NeuralNet(optimizer = 'rmsprop', unit1 = 25, unit2 = 25):
+def NeuralNet(optimizer = 'rmsprop'):
     # from dataImport import getData
     # X, Y = getData(False)
 
@@ -23,16 +23,15 @@ def NeuralNet(optimizer = 'rmsprop', unit1 = 25, unit2 = 25):
     import keras
     from keras.models import Sequential
     from keras.layers import Dense
-    from keras import optimizers
 
     # Initialising the ANN
     classifier = Sequential()
 
     # Adding the input layer and the first hidden layer
-    classifier.add(Dense(activation="relu", input_dim=49, units=unit1, kernel_initializer='uniform'))
+    classifier.add(Dense(activation="relu", input_dim=49, units=25, kernel_initializer='uniform'))
 
     # Adding the second hidden layer
-    classifier.add(Dense(activation="relu", units=unit2, kernel_initializer='uniform'))
+    classifier.add(Dense(activation="relu", units=25, kernel_initializer='uniform'))
 
     # Adding the output layer
     classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer='uniform'))
