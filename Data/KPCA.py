@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./../Data/')
 from dataImport import getData
 import numpy as np
 from sklearn.decomposition import PCA

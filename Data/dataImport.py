@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./../Data/')
 # Importing Standard ML Libraries
 import numpy as np
 import pandas as pd
@@ -8,7 +10,7 @@ np.random.seed(55) # for consistency in tuning
 # getData - reads, processes and cleans the data for a variety of ML use cases
 def getData(balance):
     # Importing the dataset
-    df = pd.read_csv('data.csv')
+    df = pd.read_csv('./../Data/data.csv')
 
     # Balancing the dataset due to large portion of people showing up
     if balance:

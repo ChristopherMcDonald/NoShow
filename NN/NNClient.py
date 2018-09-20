@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./../Data/')
 from dataImport import getData
 import numpy as np
 from keras.wrappers.scikit_learn import KerasClassifier

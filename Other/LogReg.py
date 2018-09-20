@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./../Data/')
 from KPCA import getComps
 from sklearn import linear_model, datasets
 
