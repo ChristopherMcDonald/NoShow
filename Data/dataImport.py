@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn import preprocessing
 
-np.random.seed(55) # for consistency in tuning
+np.random.seed(55) # for consistency in training
 
 # getData - reads, processes and cleans the data for a variety of ML use cases
 def getData(balance):
@@ -20,7 +20,7 @@ def getData(balance):
     df['AppointmentDay'] = pd.to_datetime(df['AppointmentDay'])
     df['ScheduledDay'] = pd.to_datetime(df['ScheduledDay'])
 
-    # What day was the aappointment booked for? (e.g. 1, 23, 30, ...)
+    # What day was the appointment booked for? (e.g. 1, 23, 30, ...)
     df['AppointmentDay-DayOfMonth'] = df.apply(lambda row: row['AppointmentDay'].day, axis = 1) # SO to Eric
 
     # What day was the aappointment booked on? (e.g. 1, 23, 30, ...)
@@ -72,8 +72,8 @@ def getData(balance):
         _ = df.set_value(i, appointDayWeekDay[row['AppointmentDay'].weekday()], 1)
         _ = df.set_value(i, appointDayMonth[row['AppointmentDay'].month], 1)
 
-    # removing appointmentID and patientID due to uniqueness, one could have a column for having missed an appointment before
-    # removing schedule and appointment dates as these are too complicated to use for most models
+    # removing appointmentID and patientID due to uniqueness, TODO have a column for having missed an appointment before
+    # removing schedule and appointment dates as these are too involved, seperated into parts already
     # removing target variable
     X = [x for x in df.columns if (x != 'AppointmentID' and x != 'PatientId' and x != 'Neighbourhood' and x != 'ScheduledDay' and x != 'AppointmentDay' and x != 'No-show')]
     X = df[X]

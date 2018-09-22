@@ -3,7 +3,7 @@ sys.path.append('./../Data/')
 from KPCA import getComps
 import numpy as np
 
-X, Y = getComps(7, True)
+X, Y = getComps(48, True)
 
 # Splitting the dataset into the Training set and Test set
 from sklearn.cross_validation import train_test_split

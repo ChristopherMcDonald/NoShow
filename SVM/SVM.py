@@ -3,7 +3,7 @@ sys.path.append('./../Data/')
 from KPCA import getComps
 import numpy as np
 
-X, Y = getComps(10, True)
+X, Y = getComps(28, True)
 
 # Splitting the dataset into the Training set and Test set
 from sklearn.cross_validation import train_test_split
@@ -11,7 +11,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.20, rand
 
 # Fitting Kernel SVM to the Training set
 from sklearn.svm import SVC
-classifier = SVC(kernel = 'linear', random_state = 0, class_weight={1: 4, 0: 1}, gamma = 1, C = 10, coef0 = 1)
+classifier = SVC(kernel = 'rbf', random_state = 0)
 classifier.fit(X_train, y_train)
 
 # Predicting the Test set results
